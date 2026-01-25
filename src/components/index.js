@@ -8,7 +8,7 @@ import Login from "./Login";
 import PostForm from "./post-form/PostForm";
 import Select from "./Select";
 import Signup from "./Signup";
-import Protected from "./AuthLayout";
+import AuthLayout from "./AuthLayout";
 import Button from "./Button";
 import PostCard from "./PostCard";
 
@@ -23,7 +23,7 @@ export {
   PostForm,
   Select,
   Signup,
-  Protected,
+  AuthLayout,
   Button,
   PostCard,
 };
