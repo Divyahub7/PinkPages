@@ -35,30 +35,34 @@ export default function Post() {
   return post ? (
     <div className="py-8">
       <Container>
-        <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
-          <img
+        <div
+          className="w-full mb-6 rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(255,182,193,0.4)]
+ shadow-md h-"
+        >
+          {/* // UPDATE LATER WITH THE REAL IMAGE */}
+          {/* <img
             src={appwriteService.getFilePreview(post.featuredImage)}
             alt={post.title}
             className="rounded-xl"
+          /> */}
+          <img
+            src="/blogpost.jpg"
+            alt={post.title}
+            className="w-full max-h-[300px] object-cover rounded-xl"
           />
-
-          {isAuthor && (
-            <div className="absolute right-6 top-6">
-              <Link to={`/edit-post/${post.$id}`}>
-                <Button bgColor="bg-green-500" className="mr-3">
-                  Edit
-                </Button>
-              </Link>
-              <Button bgColor="bg-red-500" onClick={deletePost}>
-                Delete
-              </Button>
-            </div>
-          )}
         </div>
         <div className="w-full mb-6">
           <h1 className="text-2xl font-bold">{post.title}</h1>
         </div>
         <div className="browser-css">{parse(post.content)}</div>
+        {isAuthor && (
+          <div className="absolute right-20 top-6s">
+            <Link to={`/edit-post/${post.$id}`}>
+              <Button className="mr-3">Edit</Button>
+            </Link>
+            <Button onClick={deletePost}>Delete</Button>
+          </div>
+        )}
       </Container>
     </div>
   ) : null;
