@@ -46,7 +46,7 @@ export default function Post() {
             className="rounded-xl"
           /> */}
           <img
-            src="/blogpost.jpg"
+            src={import.meta.env.BASE_URL + "blogpost.jpg"}
             alt={post.title}
             className="w-full max-h-[300px] object-cover rounded-xl"
           />
