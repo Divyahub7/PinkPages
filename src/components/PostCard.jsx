@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import appwriteService from "../appwrite/config";
 
 function PostCard({ $id, title, featuredImage }) {
-  const [imageUrl, setImageUrl] = useState(
-    import.meta.env.BASE_URL + "blog.jpg",
-  );
+  const defaultImage = import.meta.env.BASE_URL + "blog.jpg";
+  const [imageUrl, setImageUrl] = useState(defaultImage);
 
   useEffect(() => {
     const fetchImage = async () => {
