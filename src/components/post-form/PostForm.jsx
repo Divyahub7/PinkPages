@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Input, RTE, Select } from "..";
+// import { Button, Input, RTE, Select } from "..";
+import { Button, Input, Select } from "..";
+import QuillEditor from "../QuillEditor.jsx";
 import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -108,8 +110,7 @@ export default function PostForm({ post }) {
           }
         />
 
-        <RTE
-          label="Content :"
+        <QuillEditor
           name="content"
           control={control}
           defaultValue={post?.content || ""}

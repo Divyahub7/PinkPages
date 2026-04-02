@@ -22,7 +22,7 @@ function Home() {
           <Container>
             <div className="mb-8">
               <h1 className="text-2xl font-bold hover:text-gray-500">
-                Login to read posts
+                No posts yet — be the first to write!
               </h1>
             </div>
 
