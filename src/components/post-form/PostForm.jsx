@@ -41,34 +41,43 @@ export default function PostForm({ post }) {
 
   const submit = async (data) => {
     try {
-      console.log("Form data:", data);
-
       const file = data.image?.[0];
+
+      if (post) {
+        // EDITING — image optional, keep old one if not provided
+        const updatedData = {
+          title: data.title,
+          content: data.content,
+          status: data.status,
+          featuredImage: file
+            ? (await appwriteService.uploadFile(file))?.$id
+            : post.featuredImage,
+        };
+        const dbPost = await appwriteService.updatePost(post.$id, updatedData);
+        if (dbPost) navigate(`/post/${dbPost.$id}`);
+        return; // ← stop here, don't run create logic
+      }
+
+      // CREATING — image is required
       if (!file) {
-        alert("No image selected");
+        alert("Please select a featured image");
         return;
       }
 
       const uploadedFile = await appwriteService.uploadFile(file);
-      console.log("Uploaded file:", uploadedFile);
-
       if (!uploadedFile?.$id) {
         alert("File upload failed");
         return;
       }
 
-      const payload = {
+      const dbPost = await appwriteService.createPost({
         title: data.title,
         slug: data.slug,
         content: data.content,
         status: data.status,
         featuredImage: uploadedFile.$id,
         userId: userData.$id,
-      };
-
-      console.log("Payload:", payload);
-
-      const dbPost = await appwriteService.createPost(payload);
+      });
 
       if (dbPost) navigate(`/post/${dbPost.$id}`);
     } catch (err) {
@@ -79,7 +88,7 @@ export default function PostForm({ post }) {
   return (
     <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
       {/* LEFT */}
-      <div className="w-2/3 px-2">
+      <div className="w-full md:w-2/3 px-2">
         <Input
           label="Title :"
           placeholder="Title"
