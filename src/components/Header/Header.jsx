@@ -15,6 +15,7 @@ function Header() {
     { name: "Signup", slug: "/signup", active: !authStatus },
     { name: "All Posts", slug: "/all-posts", active: authStatus },
     { name: "Add Post", slug: "/add-post", active: authStatus },
+    { name: "Profile", slug: "/profile", active: authStatus },
   ];
 
   const handleNav = (slug) => {

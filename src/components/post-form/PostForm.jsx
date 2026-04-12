@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 // import { Button, Input, RTE, Select } from "..";
 import { Button, Input, Select } from "..";
 import QuillEditor from "../QuillEditor.jsx";
@@ -16,6 +17,8 @@ export default function PostForm({ post }) {
       status: post?.status || "active",
     },
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
@@ -42,6 +45,7 @@ export default function PostForm({ post }) {
   }, [watch, slugTransform, setValue]);
 
   const submit = async (data) => {
+    setIsSubmitting(true);
     try {
       const file = data.image?.[0];
 
@@ -79,11 +83,14 @@ export default function PostForm({ post }) {
         status: data.status,
         featuredImage: uploadedFile.$id,
         userId: userData.$id,
+        userName: userData.name,
       });
 
       if (dbPost) navigate(`/post/${dbPost.$id}`);
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -146,10 +153,39 @@ export default function PostForm({ post }) {
 
         <Button
           type="submit"
-          bgColor={post ? "bg-[#EE6983]" : "bg-[#EE6983]"}
+          bgColor="bg-[#EE6983]"
           className="w-full"
+          disabled={isSubmitting}
         >
-          {post ? "Update" : "Submit"}
+          {isSubmitting ? (
+            <span className="flex items-center justify-center gap-2">
+              <svg
+                className="animate-spin h-4 w-4 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8z"
+                />
+              </svg>
+              {post ? "Updating..." : "Submitting..."}
+            </span>
+          ) : post ? (
+            "Update"
+          ) : (
+            "Submit"
+          )}
         </Button>
       </div>
     </form>

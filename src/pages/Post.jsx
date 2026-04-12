@@ -4,6 +4,8 @@ import appwriteService from "../appwrite/config";
 import { Container } from "../components";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
+import Reactions from "../components/Reactions";
+import Comments from "../components/Comments";
 
 export default function Post() {
   const [post, setPost] = useState(null);
@@ -68,9 +70,12 @@ export default function Post() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 pb-4 border-b border-pink-100 gap-3">
             <span className="text-base text-pink-400 font-medium flex items-center gap-1">
               🌸 By{" "}
-              <span className="text-pink-500 font-semibold ml-1">
-                {isAuthor ? userData?.name || "You" : "A PinkPages Author"}
-              </span>
+              <Link
+                to={`/user/${post.userId}`}
+                className="text-pink-500 font-semibold ml-1 hover:underline"
+              >
+                {post.userName || "A PinkPages Author"}
+              </Link>
             </span>
 
             {isAuthor && (
@@ -95,6 +100,9 @@ export default function Post() {
             {parse(post.content)}
           </div>
         </div>
+
+        <Reactions postId={post.$id} align="left" />
+        <Comments postId={post.$id} />
 
         {/* ── Footer of page ── */}
         <div className="px-10 pb-8 pt-4 border-t border-pink-50">

@@ -15,7 +15,15 @@ export class Service {
     this.bucket = new Storage(this.client);
   }
 
-  async createPost({ title, slug, content, featuredImage, status, userId }) {
+  async createPost({
+    title,
+    slug,
+    content,
+    featuredImage,
+    status,
+    userId,
+    userName,
+  }) {
     try {
       return await this.database.createDocument(
         conf.appwriteDatabaseId,
@@ -27,6 +35,7 @@ export class Service {
           featuredImage,
           status,
           userId,
+          userName: userName || "PinkPages Author",
         },
       );
     } catch (error) {
@@ -94,6 +103,19 @@ export class Service {
     }
   }
 
+  async getPostsByUser(userId) {
+    try {
+      return await this.database.listDocuments(
+        conf.appwriteDatabaseId,
+        conf.appwriteTableId,
+        [Query.equal("userId", userId), Query.equal("status", "active")],
+      );
+    } catch (error) {
+      console.log("getPostsByUser error", error);
+      return null;
+    }
+  }
+
   // File services
   async uploadFile(file) {
     try {
@@ -120,6 +142,160 @@ export class Service {
 
   getFilePreview(fileId) {
     return this.bucket.getFileView(conf.appwriteBucketId, fileId);
+  }
+
+  async getProfile(userId) {
+    try {
+      const res = await this.database.listDocuments(
+        conf.appwriteDatabaseId,
+        conf.appwriteProfileCollectionId,
+        [Query.equal("userId", userId)],
+      );
+      return res.documents[0] || null;
+    } catch (error) {
+      console.log("getProfile error", error);
+      return null;
+    }
+  }
+
+  async createProfile({ userId, bio }) {
+    try {
+      return await this.database.createDocument(
+        conf.appwriteDatabaseId,
+        conf.appwriteProfileCollectionId,
+        ID.unique(),
+        { userId, bio: bio || "" },
+      );
+    } catch (error) {
+      console.log("createProfile error", error);
+      return null;
+    }
+  }
+
+  async updateProfile(documentId, { bio }) {
+    try {
+      return await this.database.updateDocument(
+        conf.appwriteDatabaseId,
+        conf.appwriteProfileCollectionId,
+        documentId,
+        { bio },
+      );
+    } catch (error) {
+      console.log("updateProfile error", error);
+      return null;
+    }
+  }
+
+  // Reaction services
+  async getReactions(postId) {
+    try {
+      return await this.database.listDocuments(
+        conf.appwriteDatabaseId,
+        conf.appwriteReactionsCollectionId,
+        [Query.equal("postId", postId)],
+      );
+    } catch (error) {
+      console.log("getReactions error", error);
+      return null;
+    }
+  }
+
+  async getUserReaction(postId, userId) {
+    try {
+      const res = await this.database.listDocuments(
+        conf.appwriteDatabaseId,
+        conf.appwriteReactionsCollectionId,
+        [Query.equal("postId", postId), Query.equal("userId", userId)],
+      );
+      return res.documents[0] || null;
+    } catch (error) {
+      console.log("getUserReaction error", error);
+      return null;
+    }
+  }
+
+  async addReaction({ postId, userId, reaction }) {
+    try {
+      return await this.database.createDocument(
+        conf.appwriteDatabaseId,
+        conf.appwriteReactionsCollectionId,
+        ID.unique(),
+        { postId, userId, reaction },
+      );
+    } catch (error) {
+      console.log("addReaction error", error);
+      return null;
+    }
+  }
+
+  async updateReaction(documentId, reaction) {
+    try {
+      return await this.database.updateDocument(
+        conf.appwriteDatabaseId,
+        conf.appwriteReactionsCollectionId,
+        documentId,
+        { reaction },
+      );
+    } catch (error) {
+      console.log("updateReaction error", error);
+      return null;
+    }
+  }
+
+  async deleteReaction(documentId) {
+    try {
+      await this.database.deleteDocument(
+        conf.appwriteDatabaseId,
+        conf.appwriteReactionsCollectionId,
+        documentId,
+      );
+      return true;
+    } catch (error) {
+      console.log("deleteReaction error", error);
+      return false;
+    }
+  }
+
+  // Comment services
+  async getComments(postId) {
+    try {
+      return await this.database.listDocuments(
+        conf.appwriteDatabaseId,
+        conf.appwriteCommentsCollectionId,
+        [Query.equal("postId", postId), Query.orderDesc("$createdAt")],
+      );
+    } catch (error) {
+      console.log("getComments error", error);
+      return null;
+    }
+  }
+
+  async addComment({ postId, userId, userName, content, parentId = "" }) {
+    try {
+      return await this.database.createDocument(
+        conf.appwriteDatabaseId,
+        conf.appwriteCommentsCollectionId,
+        ID.unique(),
+        { postId, userId, userName, content, parentId },
+      );
+    } catch (error) {
+      console.log("addComment error", error);
+      return null;
+    }
+  }
+
+  async deleteComment(documentId) {
+    try {
+      await this.database.deleteDocument(
+        conf.appwriteDatabaseId,
+        conf.appwriteCommentsCollectionId,
+        documentId,
+      );
+      return true;
+    } catch (error) {
+      console.log("deleteComment error", error);
+      return false;
+    }
   }
 }
 

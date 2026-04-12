@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import appwriteService from "../appwrite/config";
+import Reactions from "./Reactions";
 
 function PostCard({ $id, title, featuredImage }) {
   const defaultImage = import.meta.env.BASE_URL + "blog.jpg";
@@ -22,6 +23,7 @@ function PostCard({ $id, title, featuredImage }) {
           />
         </div>
         <h2 className="text-xl font-bold">{title}</h2>
+        <Reactions postId={$id} align="right" />
       </div>
     </Link>
   );
