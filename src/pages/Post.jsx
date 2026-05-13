@@ -37,7 +37,7 @@ export default function Post() {
     <div className="min-h-screen py-10 px-4" style={{ background: "#FCF5EE" }}>
       {/* Page wrapper — centered, full vertical, slight rounded */}
       <div
-        className="mx-auto w-full max-w-4xl bg-white rounded-lg overflow-hidden"
+        className="mx-auto w-full max-w-4xl bg-white rounded-lg overflow-hidden overflow-x-hidden"
         style={{
           boxShadow: "0 8px 40px rgba(255, 182, 193, 0.45)",
           minHeight: "90vh",
@@ -96,7 +96,7 @@ export default function Post() {
           </div>
 
           {/* Content */}
-          <div className="text-[#374151] leading-relaxed text-[1.05rem]">
+          <div className="text-[#374151] leading-relaxed text-[1.05rem] overflow-x-auto wrap-break-word">
             {parse(post.content)}
           </div>
         </div>
