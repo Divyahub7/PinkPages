@@ -85,9 +85,7 @@ const router = createBrowserRouter(
       ],
     },
   ],
-  {
-    basename: "/PinkPages",
-  },
+  {},
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
