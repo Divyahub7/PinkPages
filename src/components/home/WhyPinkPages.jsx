@@ -23,7 +23,7 @@ const features = [
 
 export default function WhyPinkPages() {
   return (
-    <section className="py-20 px-6 bg-white">
+    <section className="py-20 px-6 bg-white m-b">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-14">
           <p className="text-[#EE6983] text-sm font-semibold uppercase tracking-widest mb-2">

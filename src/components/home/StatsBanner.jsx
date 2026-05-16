@@ -18,7 +18,7 @@ export default function StatsBanner() {
   ];
 
   return (
-    <section className="bg-[#EE6983] py-16 px-6">
+    <section className="bg-[#EE6983] py-16 px-6 mt-30">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           {/* eslint-disable-next-line */}
