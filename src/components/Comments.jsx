@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import appwriteService from "../appwrite/config";
 import { FaTrash, FaRegCommentDots, FaReply } from "react-icons/fa6";
+import toast from "react-hot-toast";
 
 // ← Move AvatarCircle OUTSIDE Comments function
 const AvatarCircle = ({ name, size = "w-9 h-9" }) => (
   <div
-    className={`${size} rounded-full bg-pink-200 flex items-center justify-center text-pink-600 font-bold text-sm flex-shrink-0`}
+    className={`${size} rounded-full bg-pink-200 flex items-center justify-center text-pink-600 font-bold text-sm shrink-0`}
   >
     {name?.charAt(0).toUpperCase()}
   </div>
@@ -183,6 +184,7 @@ export default function Comments({ postId }) {
     if (comment) {
       setComments((prev) => [comment, ...prev]);
       setNewComment("");
+      toast.success("Comment posted!");
     }
     setSubmitting(false);
   };
@@ -204,6 +206,7 @@ export default function Comments({ postId }) {
       setComments((prev) => [...prev, reply]);
       setReplyText("");
       setReplyingTo(null);
+      toast.success("Reply posted!");
     }
     setSubmitting(false);
   };
@@ -214,6 +217,7 @@ export default function Comments({ postId }) {
       setComments((prev) =>
         prev.filter((c) => c.$id !== commentId && c.parentId !== commentId),
       );
+      toast.success("Comment deleted!");
     }
   };
 

@@ -7,6 +7,7 @@ import QuillEditor from "../QuillEditor.jsx";
 import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 export default function PostForm({ post }) {
   const { register, handleSubmit, watch, setValue, control } = useForm({
@@ -60,19 +61,22 @@ export default function PostForm({ post }) {
             : post.featuredImage,
         };
         const dbPost = await appwriteService.updatePost(post.$id, updatedData);
-        if (dbPost) navigate(`/post/${dbPost.$id}`);
+        if (dbPost) {
+          toast.success("Post updated successfully!");
+          navigate(`/post/${dbPost.$id}`);
+        }
         return; // ← stop here, don't run create logic
       }
 
       // CREATING — image is required
       if (!file) {
-        alert("Please select a featured image");
+        toast.error("Please select a featured image");
         return;
       }
 
       const uploadedFile = await appwriteService.uploadFile(file);
       if (!uploadedFile?.$id) {
-        alert("File upload failed");
+        toast.error("File upload failed");
         return;
       }
 
@@ -86,9 +90,13 @@ export default function PostForm({ post }) {
         userName: userData.name,
       });
 
-      if (dbPost) navigate(`/post/${dbPost.$id}`);
+      if (dbPost) {
+        toast.success("Post created successfully!");
+        navigate(`/post/${dbPost.$id}`);
+      }
     } catch (err) {
       console.error(err);
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }

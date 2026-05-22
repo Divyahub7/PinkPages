@@ -24,7 +24,7 @@ function Header() {
   };
 
   return (
-    <header className="shadow bg-[#FFC4C4] relative z-50">
+    <header className="p-1.5 shadow bg-[#FFC4C4] relative z-50">
       <Container>
         <nav className="flex items-center justify-between">
           {/* Logo */}
