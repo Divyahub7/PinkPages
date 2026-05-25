@@ -8,6 +8,7 @@ import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import AIAssistant from "../AIAssistant.jsx";
 
 export default function PostForm({ post }) {
   const { register, handleSubmit, watch, setValue, control } = useForm({
@@ -196,6 +197,7 @@ export default function PostForm({ post }) {
           )}
         </Button>
       </div>
+      <AIAssistant getTitle={() => watch("title")} />
     </form>
   );
 }

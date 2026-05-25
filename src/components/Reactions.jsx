@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import appwriteService from "../appwrite/config";
@@ -176,7 +177,7 @@ export default function Reactions({ postId, align = "left" }) {
                 title={label}
                 className="bg-white rounded-full border border-pink-100 w-6 h-6 flex items-center justify-center shadow-sm"
               >
-                <ReactionIcon size={13} color={color} />
+                {React.createElement(ReactionIcon, { size: 13, color: color })}
               </span>
             ))}
           </div>
