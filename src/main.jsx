@@ -7,6 +7,7 @@ import store from "./store/store.js";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import { AuthLayout, Login } from "./components/index.js";
+import NotFound from "./pages/NotFound.jsx";
 
 import AddPost from "./pages/AddPost";
 import Signup from "./pages/Signup";
@@ -81,6 +82,10 @@ const router = createBrowserRouter(
         {
           path: "/user/:userId",
           element: <PublicProfile />,
+        },
+        {
+          path: "*",
+          element: <NotFound />,
         },
       ],
     },

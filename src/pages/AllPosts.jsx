@@ -3,25 +3,37 @@ import { Container, PostCard } from "../components";
 import appwriteService from "../appwrite/config";
 import { FaMagnifyingGlass, FaXmark } from "react-icons/fa6";
 
+// Skeleton card component
+const SkeletonCard = () => (
+  <div className="w-full bg-white rounded-2xl shadow-md border border-pink-100 p-6 animate-pulse">
+    <div className="w-full h-48 bg-pink-100 rounded-xl mb-4" />
+    <div className="h-4 bg-pink-100 rounded-full w-3/4 mb-2" />
+    <div className="h-3 bg-pink-50 rounded-full w-1/2" />
+  </div>
+);
+
 function AllPosts() {
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const res = await appwriteService.getPosts();
         if (res && res.documents) {
-          // Map to match PostCard props
           const mappedPosts = res.documents.map((post) => ({
             $id: post.$id,
             title: post.title,
-            featuredImage: post.featuredImage || null, // handle missing images
+            featuredImage: post.featuredImage || null,
+            userName: post.userName || "",
           }));
           setPosts(mappedPosts);
         }
       } catch (err) {
         console.log("Error fetching posts:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -48,7 +60,7 @@ function AllPosts() {
           </p>
 
           {/* Search bar */}
-          <div className="mt-6  mb-20 max-w-md mx-auto relative">
+          <div className="mt-6 mb-20 max-w-md mx-auto relative">
             <input
               type="text"
               value={search}
@@ -56,13 +68,10 @@ function AllPosts() {
               placeholder="Search by title or author..."
               className="w-full px-5 py-3 pr-10 rounded-full border border-pink-200 bg-white text-sm text-gray-700 placeholder-gray-300 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-100 shadow-sm transition"
             />
-            {/* Search icon */}
             <FaMagnifyingGlass
               className="absolute right-4 top-1/2 -translate-y-1/2 text-pink-300 hover:text-pink-500 transition"
               size={16}
             />
-
-            {/* Clear button */}
             {search && (
               <button
                 onClick={() => setSearch("")}
@@ -74,7 +83,14 @@ function AllPosts() {
           </div>
         </div>
 
-        {filteredPosts.length > 0 ? (
+        {/* Skeleton loaders while fetching */}
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+        ) : filteredPosts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredPosts.map((post) => (
               <PostCard key={post.$id} {...post} />
@@ -88,6 +104,8 @@ function AllPosts() {
             </p>
           </div>
         )}
+
+        {/* Teddy bear — always visible */}
         <div className="flex justify-center mt-30">
           <img
             src="https://static.vecteezy.com/system/resources/thumbnails/039/660/817/small/adorable-coquette-teddy-bear-with-pink-ribbon-bow-watercolor-illustration-png.png"

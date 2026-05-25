@@ -113,7 +113,7 @@ export default function Reactions({ postId, align = "left" }) {
 
   return (
     <div
-      className={`flex items-center gap-3 mt-4 mx-7 ${
+      className={`flex items-center gap-3 mt-4 mx-0 ${
         align === "right" ? "justify-end pr-2" : "justify-start pl-2"
       }`}
     >
@@ -149,15 +149,15 @@ export default function Reactions({ postId, align = "left" }) {
             className={`absolute bottom-10 bg-white rounded-2xl shadow-2xl border border-pink-100 px-2 py-2 flex gap-1 z-50
               ${align === "right" ? "right-0" : "left-0"}`}
           >
-            {REACTIONS.map(({ icon: ReactionIcon, label, color }) => (
+            {REACTIONS.map(({ icon, label, color }) => (
               <button
                 key={label}
                 onClick={() => handleReaction(label)}
                 title={label}
                 className={`flex flex-col items-center gap-1 px-2 py-1.5 rounded-xl transition-all duration-150 hover:scale-110
-                  ${userReaction?.reaction === label ? "bg-pink-50" : "hover:bg-gray-50"}`}
+      ${userReaction?.reaction === label ? "bg-pink-50" : "hover:bg-gray-50"}`}
               >
-                <ReactionIcon size={24} color={color} />
+                {React.createElement(icon, { size: 24, color: color })}
                 <span className="text-[10px] text-gray-400 capitalize">
                   {label}
                 </span>
