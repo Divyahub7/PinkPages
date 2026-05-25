@@ -5,10 +5,14 @@ import WhyPinkPages from "../components/home/WhyPinkPages";
 import StatsBanner from "../components/home/StatsBanner";
 import CTABanner from "../components/home/CTABanner";
 import WaveDivider from "../components/home/WaveDivider";
+import { Helmet } from "react-helmet-async";
 
 function Home() {
   return (
     <>
+      <Helmet>
+        <title>Home | PinkPages</title>
+      </Helmet>
       <HeroSection />
       {/* <WaveDivider topColor="#FCF5EE" bottomColor="#f9a8d4" /> */}
       <MarqueeStrip />

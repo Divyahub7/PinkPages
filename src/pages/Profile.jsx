@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import appwriteService from "../appwrite/config";
 import { Container } from "../components";
+import { Helmet } from "react-helmet-async";
 
 export default function Profile() {
   const userData = useSelector((state) => state.auth.userData);
@@ -81,6 +82,9 @@ export default function Profile() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FCF5EE]">
+        <Helmet>
+          <title>My Profile | PinkPages</title>
+        </Helmet>
         <p className="text-pink-400 text-lg animate-pulse">
           Loading profile...
         </p>

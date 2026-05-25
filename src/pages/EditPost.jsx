@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, PostForm } from "../components";
 import appwriteService from "../appwrite/config";
 import { useNavigate, useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 function EditPost() {
   const [post, setPosts] = useState(null);
@@ -21,6 +22,9 @@ function EditPost() {
   }, [slug, navigate]);
   return post ? (
     <div className="py-8">
+      <Helmet>
+        <title>Edit Post | PinkPages</title>
+      </Helmet>
       <Container>
         <PostForm post={post} />
       </Container>

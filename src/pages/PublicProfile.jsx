@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import appwriteService from "../appwrite/config";
 import { Container, PostCard } from "../components";
 import { FaRegUser } from "react-icons/fa6";
+import { Helmet } from "react-helmet-async";
 
 export default function PublicProfile() {
   const { userId } = useParams();
@@ -35,6 +36,9 @@ export default function PublicProfile() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FCF5EE]">
+        <Helmet>
+          <title>Public Profile | PinkPages</title>
+        </Helmet>
         <p className="text-pink-300 text-sm animate-pulse">
           Loading profile...
         </p>

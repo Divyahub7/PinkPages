@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, PostCard } from "../components";
 import appwriteService from "../appwrite/config";
 import { FaMagnifyingGlass, FaXmark } from "react-icons/fa6";
+import { Helmet } from "react-helmet-async";
 
 // Skeleton card component
 const SkeletonCard = () => (
@@ -50,6 +51,9 @@ function AllPosts() {
 
   return (
     <div className="w-full py-12">
+      <Helmet>
+        <title>All Posts | PinkPages</title>
+      </Helmet>
       <Container>
         <div className="mb-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900">

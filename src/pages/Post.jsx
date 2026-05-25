@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import Reactions from "../components/Reactions";
 import Comments from "../components/Comments";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 export default function Post() {
   const [post, setPost] = useState(null);
@@ -38,6 +39,9 @@ export default function Post() {
   return post ? (
     <div className="min-h-screen py-10 px-4" style={{ background: "#FCF5EE" }}>
       {/* Page wrapper — centered, full vertical, slight rounded */}
+      <Helmet>
+        <title>{post?.title ? `${post.title} | PinkPages` : "PinkPages"}</title>
+      </Helmet>
       <div
         className="mx-auto w-full max-w-4xl bg-white rounded-lg overflow-hidden overflow-x-hidden"
         style={{

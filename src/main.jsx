@@ -16,6 +16,7 @@ import Post from "./pages/Post";
 import AllPosts from "./pages/AllPosts";
 import Profile from "./pages/Profile.jsx";
 import PublicProfile from "./pages/PublicProfile.jsx";
+import { HelmetProvider } from "react-helmet-async";
 
 const router = createBrowserRouter(
   [
@@ -96,7 +97,9 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <HelmetProvider>
+        <RouterProvider router={router} />
+      </HelmetProvider>
     </Provider>
   </React.StrictMode>,
 );

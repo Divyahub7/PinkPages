@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 export default function NotFound() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FCF5EE] px-4">
+      <Helmet>
+        <title>404 | PinkPages</title>
+      </Helmet>
       {/* Big 404 */}
       <div className="relative mb-6">
         <p
